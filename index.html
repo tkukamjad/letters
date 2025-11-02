@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Letters to 2085</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: sans-serif; background: #f8f9fa; text-align: center; margin: 50px; }
-    textarea { width: 80%; height: 150px; margin: 10px; padding: 10px; }
-    input, button { padding: 10px; margin: 5px; }
+    :root { --bg:#0b1220; --card:#121a2b; --ink:#e6edf3; --muted:#9fb0c7; --accent:#75e0a3; }
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Arial}
+    .wrap{max-width:760px;margin:0 auto;padding:48px 20px}
+    .card{background:var(--card);border:1px solid #1f2a44;border-radius:16px;padding:24px}
+    h1{font-size:28px;margin:0 0 8px}
+    p.sub{color:var(--muted);margin:0 0 20px}
+    textarea,input,button,select{width:100%;box-sizing:border-box;font:inherit}
+    textarea{min-height:160px;padding:12px;border-radius:12px;border:1px solid #2a3a63;background:#0e1628;color:var(--ink)}
+    input,select{padding:10px 12px;border-radius:12px;border:1px solid #2a3a63;background:#0e1628;color:var(--ink);margin-top:10px}
+    button{margin-top:14px;padding:12px 16px;border-radius:12px;border:0;background:var(--accent);color:#052313;font-weight:700;cursor:pointer}
+    .status{margin-top:12px;color:var(--muted)}
+    .fine{color:#7be499}
+    .err{color:#ffb3b3}
+    footer{margin-top:20px;color:var(--muted);font-size:14px}
   </style>
 </head>
 <body>
-  <h1>💌 Letters to Future Generations (2085)</h1>
-  <p>Write your message to the people of the future.</p>
+  <div class="wrap">
+    <div class="card">
+      <h1>💌 Letters to Future Generations</h1>
+      <p class="sub">Seal your message for a year like <b>2085</b>. We'll keep it safe in a digital time capsule.</p>
 
-  <textarea id="letter" placeholder="Dear future generations..."></textarea><br>
-  <input type="text" id="name" placeholder="Your name (optional)"><br>
-  <input type="number" id="year" placeholder="Year to open (e.g. 2085)" value="2085"><br>
-  <button onclick="submitLetter()">Send</button>
+      <label for="letter">Your letter</label>
+      <textarea id="letter" placeholder="Dear future generation..."></textarea>
 
-  <p id="status"></p>
+      <label for="name">Your name (optional)</label>
+      <input id="name" type="text" placeholder="Anonymous" />
+
+      <label for="year">Open in year</label>
+      <input id="year" type="number" min="2026" value="2085" />
+
+      <!-- PATH A: set this to your Google Form link (or leave empty for PATH B) -->
+      <input type="hidden" id="GOOGLE_FORM_POST_URL" value="" />
+
+      <button id="sendBtn">Seal my letter</button>
+      <div id="status" class="status"></div>
+    </div>
+    <footer>By you — built with love for the future 🌍</footer>
+  </div>
 
   <script>
-    function submitLetter() {
-      const letter = document.getElementById('letter').value;
-      const name = document.getElementById('name').value;
-      const year = document.getElementById('year').value;
-      if (!letter) return alert('Please write something!');
-      // For now, just simulate saving
-      document.getElementById('status').innerText =
-        `Thank you, ${name || 'friend'}! Your letter is sealed until ${year}.`;
-      document.getElementById('letter').value = '';
+    // Common validation
+    function getPayload() {
+      const letter = document.getElementById('letter').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const year = parseInt(document.getElementById('year').value, 10);
+      if (!letter) throw new Error('Please write a letter.');
+      if (!year || year < new Date().getFullYear()+1) throw new Error('Please choose a future year.');
+      return { letter, name, year };
     }
   </script>
 </body>
