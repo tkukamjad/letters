@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Letters to 2085</title>
+  <style>
+    body { font-family: sans-serif; background: #f8f9fa; text-align: center; margin: 50px; }
+    textarea { width: 80%; height: 150px; margin: 10px; padding: 10px; }
+    input, button { padding: 10px; margin: 5px; }
+  </style>
+</head>
+<body>
+  <h1>💌 Letters to Future Generations (2085)</h1>
+  <p>Write your message to the people of the future.</p>
+
+  <textarea id="letter" placeholder="Dear future generations..."></textarea><br>
+  <input type="text" id="name" placeholder="Your name (optional)"><br>
+  <input type="number" id="year" placeholder="Year to open (e.g. 2085)" value="2085"><br>
+  <button onclick="submitLetter()">Send</button>
+
+  <p id="status"></p>
+
+  <script>
+    function submitLetter() {
+      const letter = document.getElementById('letter').value;
+      const name = document.getElementById('name').value;
+      const year = document.getElementById('year').value;
+      if (!letter) return alert('Please write something!');
+      // For now, just simulate saving
+      document.getElementById('status').innerText =
+        `Thank you, ${name || 'friend'}! Your letter is sealed until ${year}.`;
+      document.getElementById('letter').value = '';
+    }
+  </script>
+</body>
+</html>
